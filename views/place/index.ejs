@@ -1,0 +1,8 @@
+<% layout('layout/app') %>
+<h1>All Places</h1>
+<a href="/places/create">Add new place</a>
+<ul>
+  <% for(let place of places){ %>
+  <li><a href="/places/<%= place._id %>"><%= place.title %></a></li>
+  <%}%>
+</ul>
