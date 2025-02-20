@@ -17,6 +17,7 @@ const placeSchema = new mongoose.Schema({
     type: String,
     required: [true, "Location can't be empty"],
   },
+  image: String,
 });
 
 module.exports = mongoose.model("Place", placeSchema);
