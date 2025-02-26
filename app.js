@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
 app.get(
   "/places",
   asyncWrap(async (req, res) => {
-    const places = await Place.find({}, { title: 1, _id: 1 });
+    const places = await Place.find({});
     res.render("place/index", { places });
   })
 );

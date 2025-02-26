@@ -1,13 +1,26 @@
 <% layout('layout/app') %>
-<h1><%= place.title %></h1>
-<img src="<%= place.image %>" alt="" />
-<h2><%= place.location %></h2>
-<form
-  action="/places/<%= place._id %>?_method=DELETE"
-  method="post"
-  style="display: inline !important"
->
-  <button type="submit">delete</button>
-</form>
-<a href="/places/<%= place._id %>/edit">Edit</a>
-<a href="/places">all places</a>
+
+<div class="card mb-3">
+  <img
+    src="<%= place.image %>"
+    height="500"
+    class="object-fit-cover rounded-top"
+    alt="..."
+  />
+  <div class="card-body">
+    <h5 class="card-title"><%= place.title %></h5>
+    <p class="card-text"><%= place.description %></p>
+    <p class="card-text">
+      <small class="text-body-secondary"><%= place.location %></small>
+    </p>
+    <form
+      action="/places/<%= place._id %>?_method=DELETE"
+      method="post"
+      style="display: inline !important"
+    >
+      <button class="btn btn-danger" type="submit">delete</button>
+    </form>
+    <a class="btn btn-primary" href="/places/<%= place._id %>/edit">Edit</a>
+    <a class="btn btn-primary" href="/places">all places</a>
+  </div>
+</div>
