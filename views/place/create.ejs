@@ -1,36 +1,76 @@
 <% layout('layout/app') %>
 
 <h1 class="text-center">Add Place</h1>
-<form action="/places" method="post">
+<form class="needs-validation" action="/places" method="post" novalidate>
   <div class="mb-3">
     <label for="title" class="form-label">Title</label>
-    <input class="form-control" type="text" name="place[title]" id="title" />
+    <input
+      required
+      class="form-control"
+      type="text"
+      name="place[title]"
+      id="title"
+    />
+    <div class="valid-feedback">Looks good!</div>
+    <div id="validationServer03Feedback" class="invalid-feedback">
+      Please provide a valid title
+    </div>
   </div>
   <div class="mb-3">
     <label for="location" class="form-label">Location</label>
     <input
+      required
       class="form-control"
       type="text"
       name="place[location]"
       id="location"
     />
+    <div class="valid-feedback">Looks good!</div>
+    <div id="validationServer03Feedback" class="invalid-feedback">
+      Please provide a valid location
+    </div>
   </div>
   <div class="mb-3">
     <label for="description" class="form-label">Description</label>
     <input
+      required
       class="form-control"
       type="text"
       name="place[description]"
       id="description"
     />
+    <div class="valid-feedback">Looks good!</div>
+    <div id="validationServer03Feedback" class="invalid-feedback">
+      Please provide a valid description
+    </div>
   </div>
   <div class="mb-3">
     <label for="price" class="form-label">Price</label>
-    <input class="form-control" type="text" name="place[price]" id="price" />
+    <input
+      required
+      class="form-control"
+      type="text"
+      name="place[price]"
+      id="price"
+    />
+    <div class="valid-feedback">Looks good!</div>
+    <div id="validationServer03Feedback" class="invalid-feedback">
+      Please provide a valid price
+    </div>
   </div>
   <div class="mb-3">
     <label for="image" class="form-label">Image URL</label>
-    <input class="form-control" type="text" name="place[image]" id="image" />
+    <input
+      required
+      class="form-control"
+      type="text"
+      name="place[image]"
+      id="image"
+    />
+    <div class="valid-feedback">Looks good!</div>
+    <div id="validationServer03Feedback" class="invalid-feedback">
+      Please provide a valid image
+    </div>
   </div>
   <button class="btn btn-success" type="submit">Submit</button>
 </form>
