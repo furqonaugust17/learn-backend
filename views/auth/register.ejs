@@ -1,0 +1,56 @@
+<% layout('layout/app') %>
+
+<h1 class="text-center">Register</h1>
+<form class="needs-validation mb-3" action="/register" method="post" novalidate>
+  <div class="mb-3">
+    <label for="username" class="form-label">Username</label>
+    <input
+      required
+      class="form-control"
+      type="text"
+      name="username"
+      id="username"
+    />
+    <div class="valid-feedback">Looks good!</div>
+    <div id="validationServer03Feedback" class="invalid-feedback">
+      Please provide a valid username
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input required class="form-control" type="email" name="email" id="email" />
+    <div class="valid-feedback">Looks good!</div>
+    <div id="validationServer03Feedback" class="invalid-feedback">
+      Please provide a valid email
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input
+      required
+      class="form-control"
+      type="password"
+      name="password"
+      id="password"
+    />
+    <div class="valid-feedback">Looks good!</div>
+    <div id="validationServer03Feedback" class="invalid-feedback">
+      Please provide a valid password
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="confirm_password" class="form-label">Confirm Password</label>
+    <input
+      required
+      class="form-control"
+      type="password"
+      name="confirm_password"
+      id="confirm_password"
+    />
+    <div class="valid-feedback">Looks good!</div>
+    <div id="validationServer03Feedback" class="invalid-feedback">
+      Please provide a valid confirm password
+    </div>
+  </div>
+  <button class="btn btn-success" type="submit">Register</button>
+</form>

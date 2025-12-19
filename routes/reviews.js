@@ -6,6 +6,7 @@ const ErrorHandler = require("../utils/ErrorHandler");
 
 const express = require("express");
 const isValidObjectId = require("../middlewares/isValidObjectId");
+const isAuth = require("../middlewares/isAuth");
 const router = express.Router({ mergeParams: true });
 
 const validateReview = (req, res, next) => {
@@ -19,6 +20,7 @@ const validateReview = (req, res, next) => {
 
 router.post(
   "/",
+  isAuth,
   isValidObjectId("/places"),
   validateReview,
   asyncWrap(async (req, res) => {
@@ -35,6 +37,7 @@ router.post(
 
 router.delete(
   "/:review_id",
+  isAuth,
   isValidObjectId("/places"),
   asyncWrap(async (req, res) => {
     const { place_id, review_id } = req.params;
