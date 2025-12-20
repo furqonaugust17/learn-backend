@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Place = require("../models/place");
+const place = require("../models/place");
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/bestpoints")
@@ -172,8 +173,12 @@ async function seedPlaces() {
   ];
 
   try {
+    const newPlace = places.map((place) => ({
+      ...place,
+      author: "6944dc1fd254b4dee4537099",
+    }));
     await Place.deleteMany({});
-    await Place.insertMany(places);
+    await Place.insertMany(newPlace);
     console.log("seed places berhasil dijalankan");
   } catch (error) {
     console.log(error);

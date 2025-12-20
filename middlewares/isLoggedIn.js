@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-  if (res.locals.user) {
+  if (res.locals.currentUser) {
     return res.redirect("/places");
   }
   next();

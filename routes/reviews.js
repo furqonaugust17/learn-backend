@@ -7,6 +7,7 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const express = require("express");
 const isValidObjectId = require("../middlewares/isValidObjectId");
 const isAuth = require("../middlewares/isAuth");
+const { isAuthorReview } = require("../middlewares/isAuthor");
 const router = express.Router({ mergeParams: true });
 
 const validateReview = (req, res, next) => {
@@ -25,11 +26,15 @@ router.post(
   validateReview,
   asyncWrap(async (req, res) => {
     const { place_id } = req.params;
-    const review = new Review(req.body.review);
+
+    const data = { ...req.body.review, author: req.user._id };
+    const review = new Review(data);
+    await review.save();
+
     const place = await Place.findById(place_id);
     place.reviews.push(review);
-    await review.save();
     await place.save();
+
     req.flash("success_msg", "Review added successfully");
     res.redirect(`/places/${place_id}`);
   })
@@ -38,6 +43,7 @@ router.post(
 router.delete(
   "/:review_id",
   isAuth,
+  isAuthorReview,
   isValidObjectId("/places"),
   asyncWrap(async (req, res) => {
     const { place_id, review_id } = req.params;

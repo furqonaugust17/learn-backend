@@ -20,6 +20,10 @@ const placeSchema = new Schema({
     required: [true, "Location can't be empty"],
   },
   image: String,
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   reviews: [
     {
       type: Schema.Types.ObjectId,
