@@ -54,7 +54,7 @@ mongoose
     console.log(err);
   });
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   res.render("home");
 });
 

@@ -4,12 +4,49 @@
 <div class="row mb-5">
   <div class="col-6">
     <div class="card">
-      <img
-        src="<%= place.image %>"
-        height="500"
-        class="object-fit-cover rounded-top"
-        alt="..."
-      />
+      <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+          <% if(place.images.length > 0){ %> <% place.images.forEach((image,
+          index) => { %>
+          <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+            <img
+              src="/images/<%= image.filename %>"
+              class="d-block w-100"
+              alt="<%= image.filename %>"
+            />
+          </div>
+          <% }) %> <% } else { %>
+          <div class="carousel-item active">
+            <img
+              src="https://random.imagecdn.app/1280/720"
+              class="d-block w-100"
+              alt="<%= image.filename %>"
+            />
+          </div>
+          <% } %>
+        </div>
+        <% if(place.images.length > 1){ %>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+        <% } %>
+      </div>
+
       <div class="card-body">
         <h5 class="card-title"><%= place.title %></h5>
         <p class="card-text"><%= place.description %></p>
@@ -32,6 +69,10 @@
     </div>
   </div>
   <div class="col-6">
+    <div
+      style="width: 640px; height: 480px; margin-bottom: 5%"
+      id="mapContainer"
+    ></div>
     <% if(currentUser){ %>
     <h3>Leave a Review</h3>
 
@@ -127,3 +168,53 @@
     <% } %>
   </div>
 </div>
+
+<script>
+  const place = <%- JSON.stringify(place) %>
+  const coordinates = place.geometry.coordinates
+</script>
+<script>
+  const map = L.map("mapContainer").setView(coordinates, 15);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors",
+  }).addTo(map);
+
+  const markerGroup = L.layerGroup().addTo(map);
+
+  const svgIcon = `
+        <svg width="50px" height="50px" viewBox="0 0 24 24"
+             xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0C7.582 0 4 3.582 4 8c0 1.421.382 2.75 1.031 3.906L12 24l6.969-12.094C19.618 10.75 20 9.421 20 8c0-4.418-3.582-8-8-8z"
+                fill="#e74c3c"/>
+          <circle cx="12" cy="8" r="3" fill="#c0392b"/>
+        </svg>
+    `;
+
+  const customIcon = L.divIcon({
+    html: svgIcon,
+    className: "",
+    iconSize: [50, 50],
+    iconAnchor: [25, 50],
+  });
+
+  function addMarkerToGroup(group, coordinate, html) {
+    const marker = L.marker(coordinate, {
+      icon: customIcon,
+    });
+
+    marker.bindPopup(html);
+
+    group.addLayer(marker);
+  }
+
+  function addInfoBubble() {
+    addMarkerToGroup(
+      markerGroup,
+      coordinates,
+      `<div>${place.title}</div>` + `<div>${place.description}</div>`
+    );
+  }
+
+  addInfoBubble();
+</script>

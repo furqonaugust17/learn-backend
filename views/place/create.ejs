@@ -1,7 +1,13 @@
 <% layout('layout/app') %>
 
 <h1 class="text-center">Add Place</h1>
-<form class="needs-validation" action="/places" method="post" novalidate>
+<form
+  class="needs-validation"
+  action="/places"
+  method="post"
+  novalidate
+  enctype="multipart/form-data"
+>
   <div class="mb-3">
     <label for="title" class="form-label">Title</label>
     <input
@@ -59,13 +65,15 @@
     </div>
   </div>
   <div class="mb-3">
-    <label for="image" class="form-label">Image URL</label>
+    <label for="image" class="form-label">Image</label>
     <input
-      required
       class="form-control"
-      type="text"
-      name="place[image]"
+      type="file"
+      accept="image/*"
+      name="image"
       id="image"
+      multiple
+      required
     />
     <div class="valid-feedback">Looks good!</div>
     <div id="validationServer03Feedback" class="invalid-feedback">

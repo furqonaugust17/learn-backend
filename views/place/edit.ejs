@@ -1,90 +1,139 @@
 <% layout('layout/app') %>
 
 <h1 class="text-center">Edit Place</h1>
-<form class="needs-validation" action="/places/<%= place._id %>?_method=PUT" method="post" novalidate>
-  <div class="mb-3">
-    <label class="form-label" for="title">Title</label>
-    <input
-      class="form-control"
-      type="text"
-      name="place[title]"
-      id="title"
-      value="<%= place.title %>"
-      required
-    />
-    <div class="valid-feedback">
-      Looks good!
-    </div>
-    <div id="validationServer03Feedback" class="invalid-feedback">
-      Please provide a valid title
-    </div>
+<div class="row mb-5">
+  <div class="col-6 <%= !place.images.length > 0 ? 'offset-3' : '' %>">
+    <form
+      class="needs-validation"
+      action="/places/<%= place._id %>?_method=PUT"
+      method="post"
+      novalidate
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <label class="form-label" for="title">Title</label>
+        <input
+          class="form-control"
+          type="text"
+          name="place[title]"
+          id="title"
+          value="<%= place.title %>"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+        <div id="validationServer03Feedback" class="invalid-feedback">
+          Please provide a valid title
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="location">Location</label>
+        <input
+          class="form-control"
+          type="text"
+          name="place[location]"
+          id="location"
+          value="<%= place.location %>"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+        <div id="validationServer03Feedback" class="invalid-feedback">
+          Please provide a valid title
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <input
+          class="form-control"
+          type="text"
+          name="place[description]"
+          id="description"
+          value="<%= place.description %>"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+        <div id="validationServer03Feedback" class="invalid-feedback">
+          Please provide a valid description
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="price">Price</label>
+        <input
+          class="form-control"
+          type="text"
+          name="place[price]"
+          id="price"
+          value="<%= place.price %>"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+        <div id="validationServer03Feedback" class="invalid-feedback">
+          Please provide a valid price
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Image</label>
+        <input
+          class="form-control"
+          type="file"
+          accept="image/*"
+          name="image"
+          id="image"
+          multiple
+        />
+        <div class="valid-feedback">Looks good!</div>
+        <div id="validationServer03Feedback" class="invalid-feedback">
+          Please provide a valid image
+        </div>
+      </div>
+      <button class="btn btn-success" type="submit">Submit</button>
+    </form>
   </div>
-  <div class="mb-3">
-    <label class="form-label" for="location">Location</label>
-    <input
-      class="form-control"
-      type="text"
-      name="place[location]"
-      id="location"
-      value="<%= place.location %>"
-      required
-    />
-     <div class="valid-feedback">
-      Looks good!
+  <% if(place.images.length > 0){ %>
+  <div class="col-6">
+    <h5 class="text-center">Delete Images</h5>
+    <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" name="" id="checkall" />
+      <label for="checkall" class="form-check-label">Pilih Semua</label>
     </div>
-    <div id="validationServer03Feedback" class="invalid-feedback">
-      Please provide a valid title
-    </div>
+    <form
+      action="/places/<%= place._id %>/images?_method=DELETE"
+      method="POST"
+      class="d-flex flex-wrap"
+    >
+      <% place.images.forEach((image, index) => { %>
+      <div class="col-md-4">
+        <div class="card-mb-3">
+          <img
+            src="/images/<%= image.filename %>"
+            class="card-img-top"
+            alt=""
+          />
+          <div class="card-body">
+            <label for="" class="custom-checkbox">
+              <input
+                type="checkbox"
+                name="images[]"
+                value="<%= image.url %>"
+                id=""
+              />
+              <span class="custom-checkbox-text">Pilih</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+      <div class="w-100"></div>
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
   </div>
-  <div class="mb-3">
-    <label class="form-label" for="description">Description</label>
-    <input
-      class="form-control"
-      type="text"
-      name="place[description]"
-      id="description"
-      value="<%= place.description %>"
-      required
-    />
-     <div class="valid-feedback">
-      Looks good!
-    </div>
-    <div id="validationServer03Feedback" class="invalid-feedback">
-      Please provide a valid description
-    </div>
-  </div>
-  <div class="mb-3">
-    <label class="form-label" for="price">Price</label>
-    <input
-      class="form-control"
-      type="text"
-      name="place[price]"
-      id="price"
-      value="<%= place.price %>"
-      required
-    />
-     <div class="valid-feedback">
-      Looks good!
-    </div>
-    <div id="validationServer03Feedback" class="invalid-feedback">
-      Please provide a valid price
-    </div>
-  <div class="mb-3">
-    <label class="form-label" for="image">Image URL</label>
-    <input
-      class="form-control"
-      type="text"
-      name="place[image]"
-      id="image"
-      value="<%= place.image %>"
-      required
-    />
-     <div class="valid-feedback">
-      Looks good!
-    </div>
-    <div id="validationServer03Feedback" class="invalid-feedback">
-      Please provide a valid image
-    </div>
-  </div>
-  <button class="btn btn-success" type="submit">Submit</button>
-</form>
+  <% } %>
+</div>
+
+<script>
+  document.getElementById("checkall").addEventListener("change", function () {
+    const checkBoxes = document.getElementsByName("images[]");
+    for (let i = 0; i < checkBoxes.length; i++) {
+      checkBoxes[i].checked = this.checked;
+    }
+  });
+</script>

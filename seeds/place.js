@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Place = require("../models/place");
 const place = require("../models/place");
+const { geometry } = require("../utils/openStreetMap");
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/bestpoints")
@@ -173,15 +174,37 @@ async function seedPlaces() {
   ];
 
   try {
-    const newPlace = places.map((place) => ({
-      ...place,
-      author: "6944dc1fd254b4dee4537099",
-    }));
+    const newPlace = await Promise.all(
+      places.map(async (place) => {
+        let geoData;
+
+        try {
+          geoData = await geometry(place.location);
+        } catch (err) {
+          console.log(`❌ Geocode gagal: ${place.location}`);
+          geoData = {
+            type: "Point",
+            coordinates: [116.32883, -8.90952],
+          };
+        }
+
+        return {
+          ...place,
+          author: "6944dc1fd254b4dee4537099",
+          images: {
+            url: "public\\images\\image-1766365387837-555656631.jpeg",
+            filename: "image-1766365387837-555656631.jpeg",
+          },
+          geometry: geoData,
+        };
+      })
+    );
+
     await Place.deleteMany({});
     await Place.insertMany(newPlace);
     console.log("seed places berhasil dijalankan");
   } catch (error) {
-    console.log(error);
+    console.log("Seeder gagal total:", error);
   } finally {
     mongoose.disconnect();
   }

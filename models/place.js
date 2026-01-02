@@ -19,7 +19,25 @@ const placeSchema = new Schema({
     type: String,
     required: [true, "Location can't be empty"],
   },
-  image: String,
+  geometry: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      required: true,
+    },
+    coordinates: [
+      {
+        type: Number,
+        required: true,
+      },
+    ],
+  },
+  images: [
+    {
+      url: String,
+      filename: String,
+    },
+  ],
   author: {
     type: Schema.Types.ObjectId,
     ref: "User",

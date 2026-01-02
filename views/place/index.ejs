@@ -1,15 +1,27 @@
 <% layout('layout/app') %>
 <h1>All Places</h1>
+<div
+  id="mapContainer"
+  style="width: 100%; height: 500px; margin-bottom: 5%"
+></div>
 <% for(let place of places){ %>
 <div class="col-12">
   <div class="card mb-3">
     <div class="row g-0">
       <div class="col-md-4">
+        <% if(place.images.length > 0){ %>
         <img
-          src="<%= place.image %>"
+          src="/images/<%= place.images[0].filename %>"
           class="img-fluid rounded-start"
           alt="..."
         />
+        <% } else {%>
+        <img
+          src="https://random.imagecdn.app/1280/720"
+          class="img-fluid rounded-start"
+          alt="..."
+        />
+        <% }%>
       </div>
       <div class="col-md-8">
         <div class="card-body">
@@ -28,3 +40,23 @@
   </div>
 </div>
 <%}%>
+
+<script>
+  const clustered = <%- clustered %>
+</script>
+
+<script>
+  const map = L.map("mapContainer").setView([-0.9730192, 116.7034266], 2);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors",
+  }).addTo(map);
+
+  const markers = L.markerClusterGroup();
+
+  for (var i = 0; i < clustered.length; i++) {
+    console.log(clustered[i]);
+    markers.addLayer(L.marker(clustered[i]));
+  }
+
+  map.addLayer(markers);
+</script>

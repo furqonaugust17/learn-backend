@@ -1,3 +1,4 @@
+const upload = require("../config/multi");
 const PlaceController = require("../controllers/places");
 const isAuth = require("../middlewares/isAuth");
 const { isAuthorPlace } = require("../middlewares/isAuthor");
@@ -10,7 +11,12 @@ const router = express.Router();
 router
   .route("/")
   .get(asyncWrap(PlaceController.index))
-  .post(isAuth, validatePlace, asyncWrap(PlaceController.store));
+  .post(
+    isAuth,
+    upload.array("image", 5),
+    validatePlace,
+    asyncWrap(PlaceController.store)
+  );
 
 router.get("/create", isAuth, PlaceController.create);
 
@@ -21,6 +27,7 @@ router
     isAuth,
     isAuthorPlace,
     isValidObjectId("/places"),
+    upload.array("image", 5),
     validatePlace,
     asyncWrap(PlaceController.update)
   )
@@ -36,6 +43,14 @@ router.get(
   isAuthorPlace,
   isValidObjectId("/places"),
   asyncWrap(PlaceController.edit)
+);
+
+router.delete(
+  "/:id/images",
+  isAuth,
+  isAuthorPlace,
+  isValidObjectId("/places"),
+  asyncWrap(PlaceController.destroyImages)
 );
 
 module.exports = router;
